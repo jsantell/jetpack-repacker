@@ -12,10 +12,10 @@ mkdir -p $SRC_DIR/xul
 mkdir -p $SRC_DIR/jetpack
 
 #set -x
-for XPI_DIR in $(ls -d $FTP_DIR/*/)
+for XPI_DIR in $(find $FTP_DIR -type d)
 do
   # Retrieve most recent xpi file
-  XPI=$(ls -t $XPI_DIR*.xpi 2>/dev/null | head -1)
+  XPI=$(ls -t $XPI_DIR/*.xpi 2>/dev/null | head -1)
   # We may not have any xpi file ...
   if ! test $XPI; then
     continue
@@ -30,7 +30,7 @@ do
     continue
   fi
   ID=$(basename $XPI_DIR)
-  # echo $XPI $KIND $ID
+  echo "Unzipping $ID"
   DST_DIR=$SRC_DIR/$KIND/$ID
   mkdir -p $DST_DIR
   unzip -oq $XPI -d $DST_DIR || echo "Failed to unzip $ID"
